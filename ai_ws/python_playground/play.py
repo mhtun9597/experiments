@@ -86,14 +86,33 @@ def cb(result: asyncio.Task[int]) -> None:
     asyncio.create_task(__acb())
 
 
+class C1:
+    def __init__(self, name: str = "default") -> None:
+        self.name = name
+
+
+def t(**kwargs: Any) -> None:
+    print(C1(**kwargs).name)
+
+
+from datetime import datetime as _datetime
+
+import datetime
+
+
+class Address(BaseModel):
+    name: str
+
+
+class Person(BaseModel):
+    name: str
+    address: list[Address]
+
+
 async def run():
-
-    task: asyncio.Task[int] = asyncio.create_task(f())
-    task.add_done_callback(cb)
-
-    while True:
-        await asyncio.sleep(2)
-
+    print("a" in ["a", "b"])
+    persons: list[Person] = [Person(name="Testete", address=[Address(name="Mandlaay")])]
+    print(f"persons {[p.model_dump_json() for p in persons]}")
     # async for val in generator():
     #     print(val)
     # func_str = """async def hello():

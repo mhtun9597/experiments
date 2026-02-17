@@ -184,7 +184,7 @@ class SampleResponse(BaseModel):
 @app.get("/api")
 async def root(path: PathInfo) -> SampleResponse:
     print("path ", path)
-    raise HTTPException(status_code=404, detail={"a": "a"})
+    # raise HTTPException(status_code=404, detail={"a": "a"})
     return SampleResponse(msg="Test", status=True, dt=datetime.now(), data={"a": "a"})
 
 
