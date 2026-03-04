@@ -24,6 +24,21 @@
                 "--reload",
             ],
             "jinja": true
+        },
+        {
+            "name": "Python Debugger: OTEL FAST API",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "__otel.server:app",
+                "--host",
+                "127.0.0.1",
+                "--port",
+                "3333",
+                "--reload",
+            ],
+            "jinja": true
         }
     ]
 }

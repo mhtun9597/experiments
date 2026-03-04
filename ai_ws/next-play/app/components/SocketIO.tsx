@@ -100,15 +100,9 @@ const Page: React.FC = () => {
         setInput(event.target.value)
     }
     return <div>
-        <span>{state1}</span>
-        <button style={{ border: "1px solid black" }} onClick={handleClick} >Send</button>
-        <span>Status :: {status}</span>
-        <span>Error :: {error?.message}</span>
-        <span>Data :: {data ? data.msg : "12312321"}</span>
-        <span>{v}</span>
-        <span>{s1}</span>
-        <input style={{ border: "1px solid black" }} type="text" value={input} onChange={handlerrr}></input>
-        <div style={{ padding: "2px" }}><p>{input}</p></div>
+        Testing
+        <div data-my-embed data-title="Payments Widget" data-primary-color="#7C3AED" data-background="#FFFFFF"
+            data-default-value="5"></div>
 
     </div>
 }

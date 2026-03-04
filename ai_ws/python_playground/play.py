@@ -1,7 +1,18 @@
 import asyncio
 from pathlib import Path
-from typing import Any, AsyncGenerator, AsyncIterator, Generator, Iterator, Optional
-
+from typing import (
+    Any,
+    AsyncGenerator,
+    AsyncIterator,
+    Generator,
+    Iterator,
+    Optional,
+    Type,
+    TypeVar,
+    cast,
+    overload,
+)
+import logging
 from pydantic import BaseModel
 
 
@@ -109,33 +120,18 @@ class Person(BaseModel):
     address: list[Address]
 
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+
 async def run():
-    print("a" in ["a", "b"])
-    persons: list[Person] = [Person(name="Testete", address=[Address(name="Mandlaay")])]
-    print(f"persons {[p.model_dump_json() for p in persons]}")
-    # async for val in generator():
-    #     print(val)
-    # func_str = """async def hello():
-    #                 import asyncio
-    #                 print("sleeping now")
-    #                 await asyncio.sleep(3)
-    #                 a = "hello world12321312"
-    #                 print(a)
 
-    #            """
-    # namespace: dict[str, Any] = {}
-    # exec(func_str, namespace)
-    # await namespace["hello"]()
+    from help import c
 
-    # sys.stdout.flush()
-    # path = Path("__langchain")
-    # all_files: list[str] = [str(p) for p in path.rglob("*") if p.is_file()]
-
-
-# async def hello():
-#     await asyncio.sleep(3)
-#     a = "hello world12321312"
-#     print(a)
+    await c.set_up()
 
 
 def trim_api_version(path: str) -> str:
@@ -155,6 +151,17 @@ paths = [
 
 def b(*args: Any) -> None:
     print(args)
+
+
+def sync_fn(x: int) -> int:
+    import time
+
+    time.sleep(x)
+    return x * 2
+
+
+async def async_fn(x: int) -> int:
+    return await asyncio.to_thread(sync_fn, x)
 
 
 if __name__ == "__main__":

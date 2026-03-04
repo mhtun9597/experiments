@@ -1,0 +1,101 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector
+    container_name: otel-collector
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml:ro
+    ports:
+      - "4317:4317" # OTLP gRPC (optional)
+      - "4318:4318" # OTLP HTTP
+      - "8888:8888"
+      - "8889:8889" # Prometheus exporter endpoint (scraped by Prometheus)
+    networks:
+      - demo-obs
+    extra_hosts:
+      # Allow Prometheus to access host.docker.internal on Windows/Mac
+      - "host.docker.internal:host-gateway"
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+      - "--web.enable-lifecycle"
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector
+    networks:
+      - demo-obs
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - demo-obs
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      # Persist traces locally (instead of in-memory)
+      - SPAN_STORAGE_TYPE=badger
+      - BADGER_DIRECTORY_VALUE=/badger/data
+      - BADGER_DIRECTORY_KEY=/badger/key
+    volumes:
+      - jaeger_badger:/badger
+    ports:
+      - "16686:16686"
+      - "5778:5778"
+      - "9411:9411"
+    networks:
+      - demo-obs
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    command: ["-config.file=/etc/loki/loki.yaml"]
+    volumes:
+      - ./loki.yaml:/etc/loki/loki.yaml:ro
+      - loki_data:/loki
+    ports:
+      - "3100:3100"
+    networks:
+      - demo-obs
+
+  # demo-app:
+  #   build: .
+  #   container_name: demo-app
+  #   environment:
+  #     OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+  #     OTEL_SERVICE_NAME: demo-app
+  #   ports:
+  #     - "3333:3333"
+  #   depends_on:
+  #     - otel-collector
+  #   networks:
+  #     - demo-obs
+
+networks:
+  demo-obs:
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  jaeger_badger:
+  loki_data:
