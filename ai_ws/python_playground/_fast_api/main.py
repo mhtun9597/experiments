@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from contextlib import asynccontextmanager
-from typing import Annotated, Any, Awaitable, Final, Optional
+from typing import Annotated, Any, AsyncGenerator, Awaitable, Final, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel
@@ -169,6 +169,70 @@ async def disconnect(sid: str, reason: str) -> None:
 @sio.on("message")  # type: ignore
 async def handle_message(sid: str, data: Any) -> None:
     print("Message from ", sid, ": ", data)
+
+
+import aiofiles
+
+
+async def async_file_streamer(file_path: str) -> AsyncGenerator[bytes, Any]:
+    async with aiofiles.open(file_path, "rb") as f:
+        while chunk := await f.read(1024 * 1024):
+            yield chunk
+
+
+async def async_file_reader(file_path: str):
+
+    async with aiofiles.open(file_path, "rb") as f:
+        return await f.read1()
+
+
+from fastapi.responses import StreamingResponse, FileResponse
+from langchain_unstructured import UnstructuredLoader
+from fastapi import UploadFile, File
+
+
+@app.post("/upload")
+async def upload_file(file: UploadFile) -> str:
+    print("received")
+    # Async write in chunks
+    file.headers
+    print(file.size)
+    file_path: str = file.filename or datetime.now().isoformat()
+    chunk_size = 1024
+    async with aiofiles.open(f"uploads/{file_path}", "wb") as out_file:
+        content = await file.read()  # 1MB chunks
+        for i in range(0, len(content), chunk_size):
+            await out_file.write(content[i : i + chunk_size])
+
+    # return FileResponse(
+    #     path=file_path, media_type="application/octet-stream", filename="test.js"
+    # )
+    return "Success"
+
+
+@app.get("/download1")
+def download_file() -> StreamingResponse:
+    print("called")
+    file_path = "test.js"
+    # return FileResponse(
+    #     path=file_path, media_type="application/octet-stream", filename="test.js"
+    # )
+    return StreamingResponse(async_file_streamer(file_path), media_type="text/plain")
+
+
+import io
+
+
+@app.get("/ingest")
+async def ingest() -> Any:
+    file = await async_file_reader("test.js")
+    print(file)
+    loader = UnstructuredLoader(
+        file=io.BytesIO(file), chunking_strategy="basic", metadata_filename="test.js"
+    )
+    docs = await loader.aload()
+    print(docs)
+    return "Success"
 
 
 from datetime import datetime

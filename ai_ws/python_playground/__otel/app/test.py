@@ -139,8 +139,12 @@ async def run():
     meter_provider = MeterProvider(resource=resource, metric_readers=[meta_reader])
     metrics.set_meter_provider(meter_provider)
     meter = metrics.get_meter("demo-meter")
-    OTEL_REQS: Counter = meter.create_counter("test_123")
-    OTEL_REQS.add(1)
+    OTEL_REQS: UpDownCounter = meter.create_up_down_counter("ws_connections_1")
+    for i in range(30):
+        connect = i % 2 == 0
+        print("is connect ", connect)
+        OTEL_REQS.add(1 if connect else -1)
+        await asyncio.sleep(1)
 
 
 if __name__ == "__main__":

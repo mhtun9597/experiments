@@ -126,12 +126,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+import os
+import shutil
+
 
 async def run():
+    # import json
 
-    from help import c
+    # json_string = '{"name": "John Doe", "id": "123456789", "verified": true}'
+    # my_dict = json.loads(json_string)
 
-    await c.set_up()
+    # print(my_dict)
+    ttt(name="test", address=1)
+
+
+def ttt(**kwargs: Any):
+    print(kwargs)
 
 
 def trim_api_version(path: str) -> str:
