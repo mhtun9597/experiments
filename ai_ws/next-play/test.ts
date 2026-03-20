@@ -1,7 +1,6 @@
 function test() {
-    if (["a", "b"].includes("a")) {
-        console.log("Triggered")
-    }
+    const str = "12321321"
+    console.log(str.includes(""))
 }
 
 test()
