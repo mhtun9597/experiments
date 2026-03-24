@@ -137,11 +137,13 @@ async def run():
     # my_dict = json.loads(json_string)
 
     # print(my_dict)
-    ttt(name="test", address=1)
+    print(ttt())
 
 
-def ttt(**kwargs: Any):
-    print(kwargs)
+def ttt() -> str:
+   a = ""
+   return  a or "Testinjg"
+    
 
 
 def trim_api_version(path: str) -> str:

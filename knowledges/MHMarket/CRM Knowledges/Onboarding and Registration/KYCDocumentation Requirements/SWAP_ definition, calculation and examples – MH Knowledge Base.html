@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <!-- v27123 -->
+
+
+  <title>SWAP: definition, calculation and examples &ndash; MH Knowledge Base</title>
+
+  
+
+  <meta name="description" content="This article provides an overview of the structure, purpose, and mechanics of overnight interest rates - SWAPs. A swap fee - also known..." /><meta property="og:image" content="https://mhknowledge.zendesk.com/hc/theming_assets/01J2X3KH30WBA0M0EZVGHK2M3S" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MH Knowledge Base" />
+<meta property="og:title" content="SWAP: definition, calculation and examples" />
+<meta property="og:description" content="This article provides an overview of the structure, purpose, and mechanics of overnight interest rates - SWAPs. A swap fee - also known as an overnight fee, rollover fee, or financing charge—is the..." />
+<meta property="og:url" content="https://mhknowledge.zendesk.com/hc/en-us/articles/10358992497807-SWAP-definition-calculation-and-examples" />
+<link rel="canonical" href="https://mhknowledge.zendesk.com/hc/en-us/articles/10358992497807-SWAP-definition-calculation-and-examples">
+<link rel="alternate" hreflang="en-us" href="https://mhknowledge.zendesk.com/hc/en-us/articles/10358992497807-SWAP-definition-calculation-and-examples">
+<link rel="alternate" hreflang="x-default" href="https://mhknowledge.zendesk.com/hc/en-us/articles/10358992497807-SWAP-definition-calculation-and-examples">
+
+  <link rel="stylesheet" href="//static.zdassets.com/hc/assets/application-4f03043d3b7bad43ce9a304b007cb1a7.css" media="all" id="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="/hc/theming_assets/17363157/10196148940815/style.css?digest=15345726077199">
+
+  <link rel="icon" type="image/x-icon" href="/hc/theming_assets/01J2X3KH30WBA0M0EZVGHK2M3S">
+
+    
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<!-- Make the translated search clear button label available for use in JS -->
+<!-- See buildClearSearchButton() in script.js -->
+<script type="text/javascript">window.searchClearButtonLabelLocalized = "Clear search";</script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+crossorigin="anonymous"></script> 
+
+  
+</head>
+<body class="community-enabled">
+  <div id="navbar-container" data-navbar="{&quot;locale&quot;:&quot;zh-cn&quot;,&quot;locale_direction&quot;:&quot;ltr&quot;,&quot;show_brand_settings_link&quot;:false,&quot;avatar_url&quot;:&quot;https://secure.gravatar.com/avatar/b4467ef997110212a64c8fddd99a41c0?default=https%3A%2F%2Fassets.zendesk.com%2Fhc%2Fassets%2Fdefault_avatar.png\u0026r=g&quot;,&quot;current_brand&quot;:&quot;MH Markets Knowledge Base&quot;,&quot;brand_selector_payload&quot;:{&quot;brands&quot;:[{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://funfunded.zendesk.com/hc/signin&quot;,&quot;label&quot;:&quot;FunFunded&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://ask.mhmarkets.help/hc/signin&quot;,&quot;label&quot;:&quot;MH Markets&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://mhknowledge.zendesk.com/hc/signin&quot;,&quot;label&quot;:&quot;MH Markets Knowledge Base&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://mhsecurities.zendesk.com/hc/signin&quot;,&quot;label&quot;:&quot;MH Securities&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://mhservice.zendesk.com/hc/signin&quot;,&quot;label&quot;:&quot;MH Service&quot;}],&quot;brand_settings_url&quot;:&quot;https://mhmarkets.zendesk.com/agent/admin/brands&quot;,&quot;brand_settings_label&quot;:&quot;品牌设置&quot;},&quot;user_dropdown_items&quot;:[{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;/access/return_to?return_to=https%3A%2F%2Fmhmarkets.zendesk.com%2Fagent%2Fusers%2F9231006624527&quot;,&quot;label&quot;:&quot;查看个人资料&quot;,&quot;target&quot;:&quot;_blank&quot;,&quot;options&quot;:{&quot;identifier&quot;:&quot;user_profile&quot;,&quot;name&quot;:&quot;Dun - OP&quot;,&quot;avatar&quot;:&quot;https://secure.gravatar.com/avatar/b4467ef997110212a64c8fddd99a41c0?default=https%3A%2F%2Fassets.zendesk.com%2Fhc%2Fassets%2Fdefault_avatar.png\u0026r=g&quot;}},{&quot;type&quot;:&quot;separator&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://support.zendesk.com/hc/zh-cn/sections/4405298860954&quot;,&quot;label&quot;:&quot;Guide 帮助中心&quot;,&quot;target&quot;:&quot;_blank&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://support.zendesk.com/hc/zh-cn/community/topics/1260801308530&quot;,&quot;label&quot;:&quot;给予反馈&quot;,&quot;target&quot;:&quot;_blank&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://www.zendesk.com/company/customers-partners/privacy-policy/&quot;,&quot;label&quot;:&quot;隐私政策&quot;,&quot;target&quot;:&quot;_blank&quot;},{&quot;type&quot;:&quot;separator&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;/access/logout?return_to=https%3A%2F%2Fmhknowledge.zendesk.com%2Fhc%2Fen-us&quot;,&quot;label&quot;:&quot;退出&quot;}],&quot;record_action_button&quot;:{&quot;label&quot;:&quot;编辑文章&quot;,&quot;url&quot;:&quot;https://mhmarkets.zendesk.com/knowledge/articles/10358992497807/en-us?brand_id=10196148940815\u0026return_to=%2Fhc%2Fen-us%2Farticles%2F10358992497807&quot;,&quot;target&quot;:&quot;_parent&quot;,&quot;disabled&quot;:false},&quot;user_profile_button&quot;:{&quot;label&quot;:&quot;&quot;,&quot;url&quot;:&quot;&quot;,&quot;target&quot;:&quot;&quot;,&quot;disabled&quot;:true},&quot;user_identifier&quot;:&quot;32cba0ff738ac183111336d657be32caa1bfe172&quot;,&quot;products_endpoint&quot;:&quot;/api/v2/products.json&quot;,&quot;product&quot;:&quot;guide&quot;,&quot;appearance_version&quot;:&quot;2.0&quot;,&quot;plan_information&quot;:{&quot;trial_active&quot;:false},&quot;general_dropdown_title&quot;:&quot;添加&quot;,&quot;general_dropdown_items&quot;:[{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://mhmarkets.zendesk.com/knowledge/articles/new?brand_id=10196148940815\u0026section_id=15344901398927&quot;,&quot;label&quot;:&quot;文章&quot;},{&quot;type&quot;:&quot;item&quot;,&quot;url&quot;:&quot;https://mhknowledge.zendesk.com/hc/en-us/community/posts/new&quot;,&quot;label&quot;:&quot;社区帖子&quot;}],&quot;resizer_label&quot;:&quot;指南导航&quot;,&quot;profile_button_label&quot;:&quot;单击个人资料图标，打开个人资料菜单&quot;,&quot;sandbox_config&quot;:null,&quot;product_tray_version&quot;:&quot;v2&quot;,&quot;guide_admin_button&quot;:{&quot;label&quot;:&quot;知识管理员&quot;,&quot;url&quot;:&quot;https://mhmarkets.zendesk.com/knowledge/lists/default/1?brand_id=10196148940815&quot;}}" style="height: 50px;width: 100%;background-color: #fff;border-bottom: 1px solid #ddd;box-shadow: 0 0 20px 0 rgba(36, 83, 107, 0.15)"></div>
+  
+  
+
+  <a class="skip-navigation" tabindex="1" href="#main-content">Skip to main content</a>
+
+<header class="header">
+  <div class="logo">
+    <!--<a title="Home" href="/hc/en-us">-->
+    <a href="https://mhknowledge.zendesk.com/hc/en-us" style="cursor:pointer"><img src="/hc/theming_assets/01J2X3KH30WBA0M0EZVGHK2M3S" alt="MH Knowledge Base Help Center home page" /></a>
+      
+        <a href="https://mhknowledge.zendesk.com/hc/en-us">MH Knowledge Base</a>
+      
+    <!--</a>-->
+  </div>
+
+  <div class="nav-wrapper-desktop">
+    <nav class="user-nav" id="user-nav">
+      <ul class="user-nav-list">
+       <!-- <li><a href="/hc/en-us/community/topics">Community</a></li>-->
+        <li class="item">
+          <a href="https://mhmarkets.zendesk.com/hc/en-gb/requests/new?ticket_form_id=9053576140943" role="menuitem" class="submit-a-request">
+            Submit a request
+          </a>
+        </li>
+        <!--<li></li>-->
+        
+      </ul>
+    </nav>
+    
+      <div class="user-info dropdown">
+        <button class="dropdown-toggle" aria-haspopup="true">
+          <img class="user-avatar" alt="" data-user-avatar="true" src="https://assets.zendesk.com/hc/assets/default_avatar.png" />
+          <span>
+            <span data-user-name="true"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" focusable="false" viewBox="0 0 12 12" class="dropdown-chevron-icon" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" d="M3 4.5l2.6 2.6c.2.2.5.2.7 0L9 4.5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="dropdown-menu" role="menu">
+          <a role="menuitem" href="/hc/en-us/profiles/9231006624527">Profile</a>
+          <a role="menuitem" class="requests-link" href="/hc/en-us/requests">Requests</a>
+          <a role="menuitem" href="/hc/contributions/posts?locale=en-us">Activities</a>
+          
+          
+          <div class="separator" role="separator"></div>
+          <a role="menuitem" href="/access/logout?return_to=https%3A%2F%2Fmhknowledge.zendesk.com%2Fhc%2Fen-us">Sign out</a>
+        </div>
+      </div>
+    
+    <div class="footer-language-selector" style="display:inline">
+      
+        <div class="dropdown language-selector">
+          <button class="dropdown-toggle" aria-haspopup="true">
+            English (US)
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" focusable="false" viewBox="0 0 12 12" class="dropdown-chevron-icon">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" d="M3 4.5l2.6 2.6c.2.2.5.2.7 0L9 4.5"/>
+            </svg>
+          </button>
+          <span class="dropdown-menu dropdown-menu-end" role="menu">
+            
+              <a href="/hc/change_language/th?return_to=%2Fhc%2Fth" dir="ltr" rel="nofollow" role="menuitem">
+                ไทย
+              </a>
+            
+              <a href="/hc/change_language/zh-cn?return_to=%2Fhc%2Fzh-cn" dir="ltr" rel="nofollow" role="menuitem">
+                简体中文
+              </a>
+            
+          </span>
+        </div>
+      
+    </div>
+  </div>
+  </div>
+
+  <div class="nav-wrapper-mobile">
+    <button class="menu-button-mobile" aria-controls="user-nav-mobile" aria-expanded="false" aria-label="Toggle navigation menu">
+      
+        <img class="user-avatar" alt="" data-user-avatar="true" src="https://assets.zendesk.com/hc/assets/default_avatar.png" />
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" focusable="false" viewBox="0 0 16 16" class="icon-menu">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" d="M1.5 3.5h13m-13 4h13m-13 4h13"/>
+      </svg>
+    </button>
+    <nav class="menu-list-mobile" id="user-nav-mobile" aria-expanded="false">
+      <ul class="menu-list-mobile-items">
+        
+          <li class="user-avatar-item item">
+            <a class="my-profile" role="menuitem" href="/hc/en-us/profiles/9231006624527">
+              <img class="menu-profile-avatar" alt="" data-user-avatar="true" src="https://assets.zendesk.com/hc/assets/default_avatar.png" />
+              <div class="menu-profile-name">
+                <div><span data-user-name="true"></span></div>
+                <div class="my-profile-tooltip">Profile</div>
+              </div>
+            </a>
+          </li>
+          <li class="item"><a role="menuitem" class="requests-link" href="/hc/en-us/requests">Requests</a></li>
+          <li class="item"><a role="menuitem" href="/hc/contributions/posts?locale=en-us">Activities</a></li>
+          <li class="item"></li>
+          <li class="item"></li>
+          <li class="nav-divider"></li>
+        
+        <li class="item"><a role="menuitem" href="/hc/en-us/community/topics">Community</a></li>
+      
+        <li class="item">
+          <a href="https://mhmarkets.zendesk.com/hc/en-gb/requests/new?ticket_form_id=9053576140943" role="menuitem" class="submit-a-request">
+            Submit a request
+          </a>
+        </li>
+
+        <li class="nav-divider"></li>
+        
+          <li class="item">
+            <a role="menuitem" href="/access/logout?return_to=https%3A%2F%2Fmhknowledge.zendesk.com%2Fhc%2Fen-us">Sign out</a>
+          </li>
+        
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</header>
+
+
+  <main role="main">
+    <div class="container-divider"></div>
+<div class="container">
+  <div class="sub-nav">
+    <ol class="breadcrumbs">
+  
+    <li title="MH Knowledge Base">
+      
+        <a href="/hc/en-us">MH Knowledge Base</a>
+      
+    </li>
+  
+    <li title="Trading Account and Platform">
+      
+        <a href="/hc/en-us/categories/15344275765903-Trading-Account-and-Platform">Trading Account and Platform</a>
+      
+    </li>
+  
+    <li title="Trading Basics">
+      
+        <a href="/hc/en-us/sections/15344901398927-Trading-Basics">Trading Basics</a>
+      
+    </li>
+  
+</ol>
+
+    <div class="search-container">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" focusable="false" viewBox="0 0 12 12" class="search-icon" aria-hidden="true">
+        <circle cx="4.5" cy="4.5" r="4" fill="none" stroke="currentColor"/>
+        <path stroke="currentColor" stroke-linecap="round" d="M11 11L7.5 7.5"/>
+      </svg>
+      <form role="search" class="search" data-search="" action="/hc/en-us/search" accept-charset="UTF-8" method="get"><input type="hidden" name="utf8" value="&#x2713;" autocomplete="off" /><input type="hidden" name="category" id="category" value="15344275765903" autocomplete="off" />
+<input type="search" name="query" id="query" placeholder="Search" aria-label="Search" /></form>
+    </div>
+  </div>
+  
+    <!-- Sidebar TOC container -->
+
+
+  <div class="article-container" id="article-container">
+    <aside class="article-sidebar" aria-labelledby="section-articles-title">
+      <aside id="article-toc" class="article-toc" aria-label="Table of contents">
+  <div class="article-toc__title">In This Article</div>
+  <nav class="article-toc__nav" role="navigation" aria-label="In-article headings">
+    <ul id="article-toc-list"></ul>
+  </nav>
+</aside>
+     <!-- 
+        <div class="collapsible-sidebar">
+          <button type="button" class="collapsible-sidebar-toggle" aria-labelledby="section-articles-title" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" focusable="false" viewBox="0 0 12 12" aria-hidden="true" class="collapsible-sidebar-toggle-icon chevron-icon">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" d="M3 4.5l2.6 2.6c.2.2.5.2.7 0L9 4.5"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" focusable="false" viewBox="0 0 12 12" aria-hidden="true" class="collapsible-sidebar-toggle-icon x-icon">
+              <path stroke="currentColor" stroke-linecap="round" d="M3 9l6-6m0 6L3 3"/>
+            </svg>
+          </button>
+          <span id="section-articles-title" class="collapsible-sidebar-title sidenav-title">
+            Articles in this section
+          </span>
+          <div class="collapsible-sidebar-body">
+            <ul>
+              
+                <li>
+                  <a href="/hc/en-us/articles/13318704261263-US-Stock-How-to-calculate-interest-on-margin-trading-short-selling" 
+                     class="sidenav-item "
+                     >
+                       US Stock-How to calculate interest on margin trading &amp; short selling
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="/hc/en-us/articles/10358992497807-SWAP-definition-calculation-and-examples" 
+                     class="sidenav-item current-article"
+                     aria-current="page">
+                       SWAP: definition, calculation and examples
+                  </a>
+                </li>
+              
+            </ul>
+            
+          </div>
+        </div>
+      -->
+    </aside>
+
+    <article id="main-content" class="article">
+      <header class="article-header">
+        <h1 title="SWAP: definition, calculation and examples" class="article-title">
+          SWAP: definition, calculation and examples
+          
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" focusable="false" viewBox="0 0 16 16" class="icon-lock" title="Only visible to agents and admins">
+              <rect width="12" height="9" x="2" y="7" fill="currentColor" rx="1" ry="1"/>
+              <path fill="none" stroke="currentColor" d="M4.5 7.5V4a3.5 3.5 0 017 0v3.5"/>
+            </svg>
+          
+        </h1>
+
+        <div class="article-author">
+          
+            <div class="avatar article-avatar">
+              
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" focusable="false" aria-hidden="true" viewBox="0 0 12 12" class="icon-agent" aria-label="User (Eric) is a team member">
+                  <path fill="currentColor" d="M6 0C2.7 0 0 2.7 0 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zm0 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm2.3 7H3.7c-.3 0-.4-.3-.3-.5C3.9 7.6 4.9 7 6 7s2.1.6 2.6 1.5c.1.2 0 .5-.3.5z"/>
+                </svg>
+              
+              <img src="https://secure.gravatar.com/avatar/5ab392d802593e8a10a16a94496ab5b2?default=https%3A%2F%2Fassets.zendesk.com%2Fhc%2Fassets%2Fdefault_avatar.png&amp;r=g" alt="" class="user-avatar"/>
+            </div>
+          
+          <div class="article-meta">
+            
+              <a href="/hc/en-us/profiles/8805394230287-Eric">
+                Eric
+              </a>
+            
+
+            <div class="meta-group">
+              
+                <span class="meta-data"><time datetime="2026-01-30T13:09:52Z" title="2026-01-30T13:09:52Z" data-datetime="relative">January 30, 2026 13:09</time></span>
+                <span class="meta-data">Updated</span>
+              
+            </div>
+          </div>
+        </div>
+
+        
+      </header>
+
+      <section class="article-info">
+        <div class="article-content">
+          <div class="article-body"><div><p>This article provides an overview of the structure, purpose, and mechanics of overnight interest rates - SWAPs. A <strong>swap fee - </strong>also known as an <strong>overnight fee</strong>, <strong>rollover fee</strong>, or <strong>financing charge</strong>—is the cost or credit applied when a trader holds a leveraged position open beyond the market’s daily cutoff time (typically overnight).&nbsp;</p><div><p>Swap fees can be <strong>positive or negative</strong>:</p><ul><li data-list-item-id="e9dd4462d17d5811e8b2947e9cc5d4d2a"><strong>Positive Swap:</strong> The trader <em>earns</em> interest when the position aligns with favorable interest rate differentials.</li><li data-list-item-id="ebadb87564fb6d182c2fca4cd57f303af"><strong>Negative Swap:</strong> The trader <em>pays</em> interest when the position incurs financing costs due to the rate differential or broker funding charges.</li></ul><h2 id="h_01KG7EW0TDVZMMRYDC9TWDJQ48">Definition: Triple Swap (in Trading)</h2><p>A <strong>triple swap (triple rollover) - </strong>is the application of three days’ worth of swap fees or credits on a single day. This occurs because financial markets must account for settlement dates that fall on weekends when positions cannot be rolled over.</p><h3 id="h_01KG7EWYNFNBWMG74RWVKGBRCZ">Why It Happens?</h3><p>In most markets (especially forex and CFDs), positions settle <strong>T+2 - </strong>two business days after the trade date. To ensure weekend interest is properly accounted for, brokers apply three days of swap charges or credits on one specific weekday.</p><h3 id="h_01KG7EXAAX1SE61TMZ0PJC38ZT">When It Happens?</h3><ul><li data-list-item-id="ec84c56d24e542da2aaa16655e1d43a8c">Triple swap is usually applied on <strong>Wednesday</strong>.</li><li class="ck-list-marker-color" data-list-item-id="e7e98ce0bc8d4f6ff83be8c2d2e12cc1d"><span style="color: #000000;">From Friday to Monday is counted as one night</span></li></ul><p><span style="color: #000000;">The detailed three times overnight deduction day can also check in “Contract Specification” of each symbol.</span></p><h2 id="h_01KG7EYJW45Z0A1C8GQEX11DZD">Overnight interest rate (in points)</h2></div></div><div class="callout-note">
+  <b>Formula:</b> 
+  Point value per lot × Number of lots × overnight interest rate (long or short) × number of days
+</div><h4 id="h_01KG7ESQ74NPSJT8X96SEXH7CE">Example 1:</h4><p><span style="color: #000000;">For example: buy order 1 lot of EURUSD on Monday and close the position on Friday.&nbsp;</span><br><img src="/hc/article_attachments/10498096536591" width="566" height="333"></p><p><span style="color: #000000;">SWAP = 1 × 1 × (-6.2568) (</span><span style="color: #FF3333;"><strong>assume the interest rate not changing</strong></span><span style="color: #000000;">) × (1+1+3+1) = -$37.54</span></p><p><img src="/hc/article_attachments/15044288493711" width="566" height="84"></p><h4 id="h_01KG7FKMQH1VG1JC6DEPWKAT07">Example 2:</h4><p><span style="color: #000000;">Place a sell order of USDCAD 0.5 lots on Tuesday, close the position on Friday.</span></p><p><span style="color: #000000;"><img src="/hc/article_attachments/10498096540687"></span></p><h4 id="h_01KG7FNZR4C97YMS2JZFRQC6TW"><span style="color: #000000;">Example 3:&nbsp;</span></h4><p><span style="color: #000000;">SWAP = 1 × 1 × (-6.2568) (</span><span style="color: #FF3333;"><strong>assume the interest rate not changing</strong></span><span style="color: #000000;">) × (1+1+3+1) = -$37.540.73 (</span><span style="color: #FF0000;"><strong>CAD to USD exchange rate</strong></span><span style="color: #000000;">) × 0.5 × (-6.0368) × (1+3+1) = -$11.02</span>&nbsp;<br><span style="color: #000000;"></span><span style="color: #000000;"><img src="/hc/article_attachments/10498100890639"></span></p><h4 id="h_01KG7FPNNWMDYEBEBZS29BW0VJ"><span style="color: #000000;">Example 4:</span></h4><p><span style="color: #000000;">Place a sell order for 0.5 lots of XAUUSD on Monday and close the position on Thursday.</span></p><p><span style="color: #000000;"></span><span style="color: #000000;"><img src="/hc/article_attachments/10498096544527"></span></p><p>SWAP =<span style="color: #000000;"> 1 × 0.5 × (14.2884) × (1+1+3) = $35.72</span></p><h4 id="h_01KG7FR8V4GDCRRFZHXDWZ57T1"><span style="color: #000000;">Example 5:</span></h4><p><span style="color: #000000;">Place a sell order for 0.8 lots of XAGUSD on Monday and close the position on Wednesday:&nbsp;</span><br><span style="color: #000000;"><img src="/hc/article_attachments/10498100896655"></span></p><p><span style="color: #000000;">SWAP = &nbsp;1 × 0.8 × (2.8116) × (1+1) = $4.50</span></p><h4 id="h_01KG7FSN7N4C19G3MWKRWF77RS"><span style="color: #000000;">Example 6:</span></h4><p><span style="color: #000000;">For example: USOUSD: &nbsp;0.5 buy order on Monday and close the position on Wednesday:</span></p><p><span style="color: #000000;">1 × 0.5 × (11.0718) × (1+1) = $11.07</span></p><h3 id="h_01KG7FTCKXBEQK5H78Q3EEVSAK"><span style="color: #000000;">Overnight interest rate (percentage term)</span></h3><div class="callout-note">
+  <b>Formula:</b> 
+   (Volume * Contract Size * Price)* interest rate/100/360 * number of days * exchange rate to USD
+</div><h4 id="h_01KG7FVF637VHZZB7KQHNVW2ZM"><span style="color: #000000;">Example 1:</span></h4><p><span style="color: #000000;">1 buy order on Monday and close the position on Wednesday</span></p><p><span style="color: #000000;"><img src="/hc/article_attachments/10501304738319" width="539" height="316">&nbsp;</span></p><p><span style="color: #000000;">SWAP =&nbsp; (1*10*19867.4)*-9.1696/100/360 * (1+1) * 1USD) =-$101.21</span></p></div>
+
+          
+
+          
+        </div>
+      </section>
+
+      <footer>
+        <div class="article-footer">
+          
+          
+        </div>
+        
+          <div class="article-votes">
+            <p class="article-votes-question" id="article-votes-label">Was this article helpful?</p>
+            <div class="article-votes-controls" role="group" aria-labelledby="article-votes-label">
+              <button type="button" class="button article-vote article-vote-up" data-helper="vote" data-item="article" data-type="up" data-id="10358992497807" data-upvote-count="0" data-vote-count="0" data-vote-sum="0" data-vote-url="/hc/en-us/articles/10358992497807/vote" data-value="null" data-label="0 out of 0 found this helpful" data-selected-class="button-primary" aria-label="This article was helpful" aria-pressed="false">Yes</button>
+              <button type="button" class="button article-vote article-vote-down" data-helper="vote" data-item="article" data-type="down" data-id="10358992497807" data-upvote-count="0" data-vote-count="0" data-vote-sum="0" data-vote-url="/hc/en-us/articles/10358992497807/vote" data-value="null" data-label="0 out of 0 found this helpful" data-selected-class="button-primary" aria-label="This article was not helpful" aria-pressed="false">No</button>
+            </div>
+            <small class="article-votes-count">
+              <span class="article-vote-label" data-helper="vote" data-item="article" data-type="label" data-id="10358992497807" data-upvote-count="0" data-vote-count="0" data-vote-sum="0" data-vote-url="/hc/en-us/articles/10358992497807/vote" data-value="null" data-label="0 out of 0 found this helpful">0 out of 0 found this helpful</span>
+            </small>
+          </div>
+        
+
+        <div class="article-more-questions">
+          
+        </div>
+        <div class="article-return-to-top">
+          <a href="#article-container">
+            Return to top
+            <svg xmlns="http://www.w3.org/2000/svg" class="article-return-to-top-icon" width="20" height="20" focusable="false" viewBox="0 0 12 12" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" d="M3 4.5l2.6 2.6c.2.2.5.2.7 0L9 4.5"/>
+            </svg>
+          </a>
+        </div>
+      </footer>
+
+      <div class="article-relatives">
+       <!-- 
+          <div data-recent-articles></div>
+        -->
+        
+          
+  <section class="related-articles">
+    
+      <h2 class="related-articles-title">Related articles</h2>
+    
+    <ul>
+      
+        <li>
+          <a href="/hc/en-us/related/click?data=BAh7CjobZGVzdGluYXRpb25fYXJ0aWNsZV9pZGwrCI9ks%2B1YCjoYcmVmZXJyZXJfYXJ0aWNsZV9pZGwrCI9sEeRrCToLbG9jYWxlSSIKZW4tdXMGOgZFVDoIdXJsSSJNL2hjL2VuLXVzL2FydGljbGVzLzExMzc3MDYxMzU2Njg3LVRyYWRlLUFjY291bnQtTWFya3VwLUdyb3VwLWFuZC1SZWJhdGVzBjsIVDoJcmFua2kG--974d874f528b70d952f8da0f535178e8330e2c7c" rel="nofollow">Trade Account Markup Group and Rebates</a>
+        </li>
+      
+        <li>
+          <a href="/hc/en-us/related/click?data=BAh7CjobZGVzdGluYXRpb25fYXJ0aWNsZV9pZGwrCI%2BX%2Fp%2FgCToYcmVmZXJyZXJfYXJ0aWNsZV9pZGwrCI9sEeRrCToLbG9jYWxlSSIKZW4tdXMGOgZFVDoIdXJsSSJML2hjL2VuLXVzL2FydGljbGVzLzEwODYwMzYxNTg2NTc1LVN1bXN1Yi1DbGllbnQtS1lDLVZlcmlmaWNhdGlvbi1PQi1TT1AGOwhUOglyYW5raQc%3D--18951f6f497052fdb73c88f6a9dfeb87bf725cbf" rel="nofollow">Sumsub/ Client KYC Verification (OB SOP)</a>
+        </li>
+      
+        <li>
+          <a href="/hc/en-us/related/click?data=BAh7CjobZGVzdGluYXRpb25fYXJ0aWNsZV9pZGwrCI9VwP1JCjoYcmVmZXJyZXJfYXJ0aWNsZV9pZGwrCI9sEeRrCToLbG9jYWxlSSIKZW4tdXMGOgZFVDoIdXJsSSJKL2hjL2VuLXVzL2FydGljbGVzLzExMzEyOTA2MTMwODMxLU1ULUFjY291bnQtQXV0by1MZXZlcmFnZS1BZGp1c3RtZW50BjsIVDoJcmFua2kI--c595fb61bec70073cba903d283e4e03c68eb50cf" rel="nofollow">MT Account Auto Leverage Adjustment</a>
+        </li>
+      
+        <li>
+          <a href="/hc/en-us/related/click?data=BAh7CjobZGVzdGluYXRpb25fYXJ0aWNsZV9pZGwrCA%2BM8L%2BTDToYcmVmZXJyZXJfYXJ0aWNsZV9pZGwrCI9sEeRrCToLbG9jYWxlSSIKZW4tdXMGOgZFVDoIdXJsSSJBL2hjL2VuLXVzL2FydGljbGVzLzE0OTI4MjMxNTY2MzUxLVRlcm1pbmF0ZS1DbGllbnQtcy1Qcm9maWxlBjsIVDoJcmFua2kJ--6ce9c4c6585aaa8b21db7aa141e24730bce50e25" rel="nofollow">Terminate Client&#39;s Profile</a>
+        </li>
+      
+        <li>
+          <a href="/hc/en-us/related/click?data=BAh7CjobZGVzdGluYXRpb25fYXJ0aWNsZV9pZGwrCI9AaFL8CzoYcmVmZXJyZXJfYXJ0aWNsZV9pZGwrCI9sEeRrCToLbG9jYWxlSSIKZW4tdXMGOgZFVDoIdXJsSSJmL2hjL2VuLXVzL2FydGljbGVzLzEzMTc4MzQyMjI4MTExLUhvdy10by1CYWNrdXAtYW5kLVJlc3RvcmUtTVQtVGVybWluYWwtRGF0YS1BZnRlci1WZXJzaW9uLVVwZGF0ZQY7CFQ6CXJhbmtpCg%3D%3D--359b50051f0fd56172354f203d76d922b6af38d2" rel="nofollow">How to Backup and Restore MT Terminal Data After Version Update</a>
+        </li>
+      
+    </ul>
+  </section>
+
+
+        
+      </div>
+      
+    </article>
+  </div>
+</div>
+
+  </main>
+
+  <footer class="footer footer-section">
+  <div class="footer-header-block">
+      <a title="Home" href="/hc/en-us">
+        <img src="/hc/theming_assets/01J2X8DGMZX345PPEHBS8J73CH" style="width:150px" alt="Brand Logo" />
+      </a>
+    
+    <div style="display: flex;align-items: center;">
+<!--    		<div class='contact-us'>:&nbsp;<div class="contact-us-phone-icon"></div><p style="font-weight:600;"></p></div>       -->
+      <a href="" onclick="toOfficialWebsite()" target="_blank" id="back-to-website">Back to the website</a>
+    </div>
+  </div>
+  <hr style="margin: 16px 0 0;border: .1px solid rgba(255, 255, 255, 0.25);">
+  <div class="footer-inner">
+    
+   <!-- <p><p style="color:#A92732;font-weight:bold;font-size:20px">Disclaimer:</p>
+<p>MH Markets is a financial services group offering a wide range of financial products with licenses spanning across different parts of the world. We provide best-in-class products and services with the aim of meeting the needs of the most sophisticated retail and institutional clients in various jurisdictions. With extensive experience in financial markets and strong industry knowledge, the scale of MH Markets continues to expand. We provide specific licensed financial services in different jurisdictions to meet the increasing financial needs of diverse clients. At present, MH Markets has established specialized service organizations for clients in different markets.</p>
+
+<p>Mohicans Markets Limited is registered with Financial Transactions and Reports Analysis Centre of Canada (FINTRAC) with Money Services Business (MSB) registration no. M23343315. The registered MSB activities include foreign exchange dealing, money transferring, dealing in virtual currencies, and payment service provider.</p>
+
+<p>Mohicans Markets Capital Pty Ltd is registered in Australia with license number 455388 and with Australian Company Number (ACN) 168 652 542. It is regulated by the Australian Securities and Investments Commission (ASIC) and is authorized to provide general financial product advice for different classes of financial products such as foreign exchange contracts to retail and wholesale clients.</p>
+
+<p>Mohicans Markets Mauritius holds an Investment Dealer license (Full-service dealer, excluding underwriting) licensed by the Mauritius Financial Services Commission (MFSC), with license number GB20026131. Mohicans Markets Mauritius is an Investment Dealer (liquidity provider/market maker) that offers Brokerage services to its clients. It acts as an investment dealer and a counterparty for the execution of clients' trades. The Company acts as an investment dealer and deal as a principal in Financial Derivative Instruments and Securities and as a broker in predominately financial derivatives traded over the counter, through a recognized trading platform, with different underlying assets such as currency pairs, commodities, bonds, shares and indices.</p>
+
+<p>Mohicans Markets (VU) Limited is registered by the Vanuatu Financial Services Commission (VFSC), with company number 40306, to carry on the business of dealing with securities.</p>
+
+<p>Mohicans Markets Limited - Dubai branch, with Business License No. 1289522 representative office of the Mohicans Markets Limited in Vanuatu.</p>
+
+<p>Mohicans Markets Limited is registered in Saint Vincent and the Grenadines Financial Services Authority, with business license number 22135 BC 2014. The business activity registered is for forex trading/ brokerage. The SV&G FSA is empowered to regulate, supervise and develop the non-bank financial services sector in St. Vincent and the Grenadines. It is also responsible for ensuring that each licensed financial entity is properly managed and remains financially sound. The FSA therefore has the powers to intervene in the affairs of a regulated entity for the purpose of protecting customers'. Further details on the jurisdiction SV&G FSA can be accessed through Financial Services Authority - St. Vincent & the Grenadines (<a href="https://svgfsa.com">svgfsa.com</a>).</p>
+
+<p>There are financial services that are not directly offered via this website and we only service customers in accordance with the licenses and registration per jurisdictions mentioned above. If you'd like to receive financial services or are interested in a specific financial product, please contact us and we will pass your details directly to our authorized related business entity who will contact you directly. Please <a href="#">click this link</a> and provide your details.</p>
+</p>-->
+
+  </div>
+</footer>
+
+
+
+  <!-- / -->
+
+  
+  <script src="//static.zdassets.com/hc/assets/en-us.d56c270a4c7e84b07645.js"></script>
+  
+
+  <script type="text/javascript">
+  /*
+
+    Greetings sourcecode lurker!
+
+    This is for internal Zendesk and legacy usage,
+    we don't support or guarantee any of these values
+    so please don't build stuff on top of them.
+
+  */
+
+  HelpCenter = {};
+  HelpCenter.account = {"subdomain":"mhmarkets","environment":"production","name":"MH Markets"};
+  HelpCenter.user = {"identifier":"32cba0ff738ac183111336d657be32caa1bfe172","email":"dun@mhmarkets.com","name":"Dun - OP","tags":["chinese"],"locale":"en-us","role":"agent","avatar_url":"https://secure.gravatar.com/avatar/b4467ef997110212a64c8fddd99a41c0?default=https%3A%2F%2Fassets.zendesk.com%2Fhc%2Fassets%2Fdefault_avatar.png\u0026r=g","is_admin":false,"organizations":[],"groups":[{"name":"Support","default":true,"isActive":true},{"name":"Data Analyst","default":false,"isActive":true},{"name":"Payment Channel Team","default":false,"isActive":true}]};
+  HelpCenter.internal = {"asset_url":"//static.zdassets.com/hc/assets/","web_widget_asset_composer_url":"https://static.zdassets.com/ekr/snippet.js","current_session":{"locale":"en-us","csrf_token":"hc:hcobject:server:Twcng_gBYoxIeOGceLkesXNSENn9qBoYbtXqnhaPCavH1VTF-qZtMNNQdmx_5YRLeEC69OsUm7CmZ9pZVbGr-g","shared_csrf_token":"pxm8AxKXPGNdqo8SnZEKesISd59qCdM24iXQQgiucZQ"},"usage_tracking":{"event":"article_viewed","data":"BAh7CDoLbG9jYWxlSSIKZW4tdXMGOgZFVDoPYXJ0aWNsZV9pZGwrCI9sEeRrCToKX21ldGF7DDoPYWNjb3VudF9pZGkE1fAIAToTaGVscF9jZW50ZXJfaWRsKwiPFsb8RQk6DWJyYW5kX2lkbCsID/DV+UUJOgx1c2VyX2lkbCsID+veQmUIOhN1c2VyX3JvbGVfbmFtZUkiCkFHRU5UBjsGVDsASSIKZW4tdXMGOwZUOhphbm9ueW1vdXNfdHJhY2tpbmdfaWQw--12166eda590b967b785d5f84ccaee4bc55fd8b63","url":"https://mhknowledge.zendesk.com/hc/activity"},"current_record_id":"10358992497807","current_record_url":"/hc/en-us/articles/10358992497807-SWAP-definition-calculation-and-examples","current_record_title":"SWAP: definition, calculation and examples","current_text_direction":"ltr","current_brand_id":10196148940815,"current_brand_name":"MH Markets Knowledge Base","current_brand_url":"https://mhknowledge.zendesk.com","current_brand_active":true,"current_path":"/hc/en-us/articles/10358992497807-SWAP-definition-calculation-and-examples","show_autocomplete_breadcrumbs":true,"user_info_changing_enabled":false,"has_user_profiles_enabled":true,"has_end_user_attachments":true,"user_aliases_enabled":false,"has_anonymous_kb_voting":false,"has_multi_language_help_center":true,"show_at_mentions":true,"embeddables_config":{"embeddables_web_widget":false,"embeddables_help_center_auth_enabled":false,"embeddables_connect_ipms":false},"answer_bot_subdomain":"static","gather_plan_state":"subscribed","has_article_verification":false,"has_gather":true,"has_ckeditor":false,"has_community_enabled":true,"has_community_badges":true,"has_community_post_content_tagging":false,"has_gather_content_tags":true,"has_guide_content_tags":true,"has_user_segments":true,"has_answer_bot_web_form_enabled":true,"has_garden_modals":false,"theming_cookie_key":"hc-32cba0ff738ac183111336d657be32caa1bfe172-2-preview","is_preview":false,"has_search_settings_in_plan":true,"theming_api_version":2,"theming_settings":{"brand_color":"rgba(216, 22, 24, 1)","brand_text_color":"rgba(248, 248, 248, 1)","text_color":"rgba(14, 15, 25, 1)","link_color":"rgba(0, 0, 238, 1)","hover_link_color":"rgba(76, 177, 255, 1)","visited_link_color":"rgba(76, 177, 255, 1)","background_color":"rgba(255, 255, 255, 1)","heading_font":"Arial, 'Helvetica Neue', Helvetica, sans-serif","text_font":"Arial, 'Helvetica Neue', Helvetica, sans-serif","logo":"/hc/theming_assets/01J2X3KH30WBA0M0EZVGHK2M3S","show_brand_name":true,"favicon":"/hc/theming_assets/01J2X3KH30WBA0M0EZVGHK2M3S","homepage_background_image":"/hc/theming_assets/01J2XCW7YXKM5FXVYZTRCE6P70","community_background_image":"/hc/theming_assets/01J2ZK8KFQYKRFC4KENJRACHD0","community_image":"/hc/theming_assets/01J2ZK6JN5D5SJN48GARJRPY81","show_generative_answers":true,"instant_search":true,"scoped_kb_search":true,"scoped_community_search":true,"show_recent_activity":false,"show_articles_in_section":true,"show_article_author":true,"show_article_comments":false,"show_follow_article":false,"show_recently_viewed_articles":true,"show_related_articles":true,"show_article_sharing":false,"show_follow_section":false,"show_follow_post":false,"show_post_sharing":false,"show_follow_topic":false,"request_list_beta":false},"has_pci_credit_card_custom_field":false,"help_center_restricted":false,"is_assuming_someone_else":false,"flash_messages":[],"user_photo_editing_enabled":true,"user_preferred_locale":"zh-cn","base_locale":"en-us","login_url":"/hc/en-us/restricted?return_to=https%3A%2F%2Fmhknowledge.zendesk.com%2Fhc%2Fen-us%2Farticles%2F10358992497807-SWAP-definition-calculation-and-examples","has_alternate_templates":false,"has_custom_statuses_enabled":true,"has_hc_generative_answers_setting_enabled":true,"has_generative_search_with_zgpt_enabled":true,"has_suggested_initial_questions_enabled":false,"has_guide_service_catalog":true,"has_service_catalog_search_poc":false,"has_service_catalog_itam":false,"has_csat_reverse_2_scale_in_mobile":false,"has_knowledge_navigation":false,"has_trial_presumptive_setup":false,"has_unified_navigation":false,"has_unified_navigation_eap_access":true,"has_csat_bet365_branding":false,"has_help_center_gen_search_follow_up_conversation":false,"version":"v27123","dev_mode":false,"arrange_articles_url":"https://mhmarkets.zendesk.com/knowledge/arrange?brand_id=10196148940815","article_verification_url":"https://mhmarkets.zendesk.com/knowledge/verification?brand_id=10196148940815","community_badges_url":"https://mhmarkets.zendesk.com/knowledge/community_badges?brand_id=10196148940815","community_settings_url":"https://mhmarkets.zendesk.com/knowledge/community_settings?brand_id=10196148940815","content_tags_url":"https://mhmarkets.zendesk.com/knowledge/content_tags?brand_id=10196148940815","docs_importer_url":"https://mhmarkets.zendesk.com/knowledge/import_articles?brand_id=10196148940815","general_settings_url":"https://mhknowledge.zendesk.com/hc/admin/general_settings?locale=en-us","guide_language_settings_url":"https://mhknowledge.zendesk.com/hc/admin/language_settings?locale=en-us","search_settings_url":"https://mhmarkets.zendesk.com/knowledge/search_settings?brand_id=10196148940815","user_segments_url":"https://mhmarkets.zendesk.com/knowledge/user_segments?brand_id=10196148940815"};
+</script>
+
+  
+  
+  <script src="//static.zdassets.com/hc/assets/hc_enduser-9ec593ba73d0074f2bd9c10b4a3d5643.js"></script>
+  <script type="text/javascript" src="/hc/theming_assets/17363157/10196148940815/script.js?digest=15345726077199"></script>
+  
+</body>
+</html>
