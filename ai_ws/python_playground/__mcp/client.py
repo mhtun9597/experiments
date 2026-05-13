@@ -24,16 +24,22 @@ transport = StdioTransport(
 async def get_tools() -> list[Any]:
     result: list[Any] = []
     try:
-        async with Client(transport) as client:
+        async with Client("http://localhost:1111/mcp") as client:
             tools = await client.list_tools()
             print(tools)
 
             # client
             print("Calling")
-            res = await client.call_tool(
-                name="private_greet", arguments={"greet": "testest"}
-            )
-            print("Result ", res)
+            try:
+                res = await client.call_tool(name="test", arguments=None)
+                print("Result ", res)
+            except Exception as e:
+
+                print(
+                    f"Exception {e}",
+                )
+
+            # result = await client.list_tools()
 
         # async with stdio_client(server_params) as (read, write):
         #     async with ClientSession(read, write) as session:
@@ -45,21 +51,19 @@ async def get_tools() -> list[Any]:
 
         #         print("Langchain load tools ", tools)
 
-    except:
-        pass
+    except Exception as e:
+        print(e)
     finally:
-        if client:
-            await client.close()
+        # if client:
+        #     await client.close()
         return result
 
 
 async def run():
-    t = {"name": "123123"}
-    print(str(t))
-    while True:
-        await get_tools()
-
-        await asyncio.sleep(3)
+    await get_tools()
+    # while True:
+    #
+    #     await asyncio.sleep(3)
 
 
 if __name__ == "__main__":

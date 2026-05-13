@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, contextmanager
 from typing import Annotated, Any, AsyncGenerator, Awaitable, Final, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -8,6 +8,7 @@ import socketio
 from starlette.middleware.base import (
     BaseHTTPMiddleware,
 )
+import asyncio
 from starlette.responses import Response
 from starlette.types import ASGIApp
 from fastapi.middleware.cors import CORSMiddleware
@@ -127,11 +128,11 @@ class NS1(socketio.AsyncNamespace):
 
     async def on_room_event(self, sid: str, data: Any):
 
-        await self.emit(
-            event="my_event",
-            data="Testing",
-            room=data,
-        )  # type: ignore
+        # await self.emit(
+        #     event="my_event",
+        #     data="Testing",
+        #     room=data,
+        # )  # type: ignore
         print("broadcasted room event")
 
 
@@ -170,6 +171,43 @@ async def disconnect(sid: str, reason: str) -> None:
 async def handle_message(sid: str, data: Any) -> None:
     print("Message from ", sid, ": ", data)
 
+
+# @contextmanager
+# def timer():
+#     ctx = ContextManager("Testingsdfsdfds")  # Setup
+#     try:
+#         yield ctx  # Execution occurs here
+#     finally:
+#         end_time = time.perf_counter()
+#         elapsed = end_time - start_time
+#         print(f"{label} completed in {elapsed:.4f} seconds")
+
+
+class ContextManager:
+
+    def __init__(self, session: str):
+        self.session = session
+
+    async def __aenter__(self) -> "ContextManager":
+        return self
+
+    async def __aexit__(self, exc_type: Any, exc_value: Any, traceback: Any):
+        self.session = None
+        print("Existed")
+
+
+async def get_context() -> AsyncGenerator[ContextManager, Any]:
+
+    try:
+        async with ContextManager("Testing") as ctx:
+            yield ctx
+    except Exception as e:
+        print(e)
+    finally:
+        pass
+
+
+ContextManagerDep = Annotated[ContextManager, Depends(get_context)]
 
 import aiofiles
 
@@ -235,6 +273,19 @@ async def ingest() -> Any:
     return "Success"
 
 
+class _Request(BaseModel):
+    name: str
+
+
+class _Response(_Request):
+    id: str
+
+
+@app.post("/register/{region}")
+async def register(req: _Request, region: str) -> _Response:
+    return _Response(name=req.name, id=datetime.now().isoformat())
+
+
 from datetime import datetime
 
 
@@ -245,11 +296,54 @@ class SampleResponse(BaseModel):
     data: Any
 
 
+async def loop() -> None:
+    for i in range(5):
+        await asyncio.sleep(1)
+        print("Working")
+
+
 @app.get("/api")
 async def root(path: PathInfo) -> SampleResponse:
     print("path ", path)
+
     # raise HTTPException(status_code=404, detail={"a": "a"})
+    def cb(task: asyncio.Task[None]) -> None:
+        print("Doneeee")
+
+    task = asyncio.create_task(loop())
+    task.add_done_callback(cb)
     return SampleResponse(msg="Test", status=True, dt=datetime.now(), data={"a": "a"})
+
+
+class Account(BaseModel):
+    id: int
+    name: str
+    country: str
+    email: str
+
+
+accs = [
+    Account(id=1, name="MrFoo", country="china", email="foo@gmail.com"),
+    Account(id=2, name="MsBoo", country="china", email="boo@gmail.com"),
+]
+
+
+@app.get("/accounts")
+async def get_accounts() -> list[Account]:
+    return accs
+
+
+class AccCreationRequest(BaseModel):
+    name: str
+    email: str
+    country: str
+
+
+@app.post("/accounts")
+async def register_accounts(acc: AccCreationRequest) -> str:
+    id = id = len(accs) + 1
+    accs.append(Account(id=id, name=acc.name, email=acc.email, country=acc.country))
+    return f"Account Successfully Created with ID {id}"
 
 
 if __name__ == "__main__":
@@ -258,7 +352,7 @@ if __name__ == "__main__":
     try:
         uvicorn.run(
             "_fast_api.main:app",
-            host="127.0.0.1",
+            host="localhost",
             port=3333,
             reload=True,
             log_level="info",

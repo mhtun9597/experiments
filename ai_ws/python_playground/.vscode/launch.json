@@ -18,7 +18,7 @@
             "args": [
                 "_fast_api.main:app",
                 "--host",
-                "127.0.0.1",
+                "localhost",
                 "--port",
                 "3333",
                 "--reload",
@@ -31,9 +31,9 @@
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "__otel.server:app",
+                "__otel.app.main:app",
                 "--host",
-                "127.0.0.1",
+                "localhost",
                 "--port",
                 "3333",
                 "--reload",

@@ -6,7 +6,8 @@ pool: aioredis.ConnectionPool = aioredis.ConnectionPool.from_url("redis://localh
 
 async def main():
     # from hmap import run
-    from fifo import run
+    # from fifo import run
+    from counter import run
 
     await run(pool)
 

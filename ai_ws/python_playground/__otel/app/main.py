@@ -22,7 +22,12 @@ from opentelemetry.sdk._logs.export import (
 )
 from opentelemetry.exporter.otlp.proto.http._log_exporter import OTLPLogExporter
 import logging
-from opentelemetry.metrics._internal.instrument import Counter, Histogram, Gauge, UpDownCounter
+from opentelemetry.metrics._internal.instrument import (
+    Counter,
+    Histogram,
+    Gauge,
+    UpDownCounter,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +65,7 @@ tracer_provider = TracerProvider(resource=resource)
 tracer_provider.add_span_processor(
     BatchSpanProcessor(OTLPSpanExporter(endpoint=f"{otlp_endpoint}/v1/traces"))
 )
-trace.set_tracer_provider(tracer_provider)
+trace.set_tracer_provider(tracer_provider)  # type: ignore
 
 tracer: trace.Tracer = trace.get_tracer("demo-tracer")
 
@@ -69,11 +74,12 @@ meta_reader = PeriodicExportingMetricReader(
     export_interval_millis=5000,
 )
 meter_provider = MeterProvider(resource=resource, metric_readers=[meta_reader])
+
 metrics.set_meter_provider(meter_provider)
 meter = metrics.get_meter("demo-meter")
-OTEL_REQS: UpDownCounter = meter.create_up_down_counter("demo_otel_requests_total")
+OTEL_REQS: UpDownCounter = meter.create_up_down_counter("temp_test_total", "_count")
 
-OTEL_LAT: Histogram = meter.create_histogram("demo_otel_request_duration_ms")
+OTEL_LAT: Histogram = meter.create_histogram("temp_test_duration", "histo")
 
 
 app: Final[FastAPI] = FastAPI()
@@ -86,7 +92,7 @@ FastAPIInstrumentor().instrument_app(app)  # type: ignore
 #     return Response(data)
 
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class SampleResponse(BaseModel):
@@ -103,10 +109,27 @@ async def root() -> dict[str, Any]:
     return {"ok": False}
 
 
+@app.get("/query_counter")
+async def root() -> Any:
+    from __otel.app.test import query_instant, query_range
+    from datetime import datetime, timedelta
+
+    now = datetime.now()
+    one_hour_ago = now - timedelta(hours=1)
+    res = await query_range(
+        'temp_test_total_count{otel_scope_name="demo-meter"}',
+        start=one_hour_ago,
+        end=now,
+        step="1m",
+    )
+
+    return tuple([1, 2])
+
+
 @app.get("/work")
 async def work() -> dict[str, Any]:
     logger.info("work api called ")
-    from app.helper import help
+    from __otel.app.helper import help
 
     help()
 
@@ -122,8 +145,9 @@ async def work() -> dict[str, Any]:
     status = random.choice([200, 400, 500])
 
     # OTel metrics
-    
-    OTEL_LAT.record(dur_ms, {f"status_histo_{status}": route})
+
+    OTEL_LAT.record(dur_ms)
+    OTEL_REQS.add(1)
 
     if status != 200:
         raise HTTPException(status_code=status, detail="Testing Failed")
@@ -131,3 +155,18 @@ async def work() -> dict[str, Any]:
     return {"ok": True, "duration_ms": round(dur_ms, 2)}
 
 
+if __name__ == "__main__":
+    import uvicorn
+
+    try:
+        uvicorn.run(
+            "__otel.app.main:app",
+            host="localhost",
+            port=3333,
+            reload=True,
+            log_level="info",
+        )
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt received, shutting down...")
+    except Exception as e:
+        print(f"Server error: {e}")

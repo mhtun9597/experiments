@@ -1,0 +1,138 @@
+{
+    "properties": {
+        "tenants": {
+            "description": "list of tenants",
+            "items": {
+                "properties": {
+                    "name": {
+                        "description": "name of the tenant",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "tenants"
+    ],
+    "type": "object"
+}
+
+
+{
+    "properties": {
+        "tenants": {
+            "properties": {
+                "name": {
+                    "description": "name of the tenant",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "description": "Tenant information"
+        },
+        "region": {
+            "description": "location",
+            "type": "string"
+        }
+    },
+    "required": [
+        "tenants",
+        "region"
+    ],
+    "type": "object"
+}
+// For Accounts Query 
+// query_accounts
+// Use this tool to query account general informations
+// http://localhost:3333/accounts
+{
+    "properties": {},
+    "type": "object"
+}
+// For Account Registration 
+// register_account
+// Use this tool to register new account
+// http://localhost:3333/accounts
+{
+    "properties": {
+        "account": {
+            "properties": {
+                "name": {
+                    "description": "Account Name",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "Account Email",
+                    "type": "string"
+                },
+                "country": {
+                    "description": "Country",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "email",
+                "country"
+            ],
+            "type": "object",
+            "description": "Account information"
+        }
+    },
+    "required": [
+        "account"
+    ],
+    "type": "object"
+}
+// For Account KYC Check 
+// check_kyc_status
+// Use this tool to check kyc status of an account
+// http://localhost:1111/mcp
+{
+    "properties": {
+        "id": {
+            "description": "Account ID",
+            "type": "integer"
+        }
+    },
+    "required": [
+        "id"
+    ],
+    "type": "object"
+}
+// For Account Balance Check
+// check_account_balance 
+// Use this tool to check account balance
+// postgresql://$username:$password@localhost:5432/test
+// SELECT * from test where id=$id;
+{
+    "properties": {
+        "username": {
+            "type": "string",
+            "description": "username credential"
+        },
+        "password": {
+            "type": "string",
+            "description": "password credential"
+        },
+        "id": {
+            "type": "number",
+            "description": "id of user"
+        }
+    },
+    "required": [
+        "username",
+        "password",
+        "id"
+    ],
+    "type": "object"
+}

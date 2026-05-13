@@ -23,7 +23,7 @@ from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
 
 
 async def query_instant(
-    query: str, time: Optional[datetime] = None
+    _query: str, time: Optional[datetime] = None
 ) -> Optional[dict[str, Any]]:
     """
     Execute instant query
@@ -36,16 +36,16 @@ async def query_instant(
         Query result or None on error
     """
     url = f"{BASE_URL}/api/v1/query"
-    params: dict[str, Any] = {"query": query}
+    params: dict[str, Any] = {"query": _query}
 
     if time:
         params["time"] = time.timestamp()
 
-    return await _query(url, params)
+    return await query(url, params)
 
 
 async def query_range(
-    query: str, start: datetime, end: datetime, step: str = "1m"
+    _query: str, start: datetime, end: datetime, step: str = "1m"
 ) -> Optional[dict[str, Any]]:
     """
     Execute range query
@@ -61,16 +61,16 @@ async def query_range(
     """
     url = f"{BASE_URL}/api/v1/query_range"
     params: dict[str, Any] = {
-        "query": query,
+        "query": _query,
         "start": start.timestamp(),
         "end": end.timestamp(),
         "step": step,
     }
 
-    return await _query(url, params)
+    return await query(url, params)
 
 
-async def _query(url: str, params: dict[str, Any]) -> Optional[dict[str, Any]]:
+async def query(url: str, params: dict[str, Any]) -> Optional[dict[str, Any]]:
     """
     Execute query with retry and timeout
 
