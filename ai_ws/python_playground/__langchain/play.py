@@ -272,7 +272,7 @@ async def run():
     _model = ChatOllama(
         model="gemma4:e4b",
         validate_model_on_init=True,
-        profile=ModelProfile(max_input_tokens=1000),
+        base_url="http://mohicans:mohicans_6123@91.72.121.198:8000/ollama/",
         # other params ...
     )
 

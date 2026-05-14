@@ -352,8 +352,8 @@ if __name__ == "__main__":
     try:
         uvicorn.run(
             "_fast_api.main:app",
-            host="localhost",
-            port=3333,
+            host="0.0.0.0",
+            port=80,
             reload=True,
             log_level="info",
         )
