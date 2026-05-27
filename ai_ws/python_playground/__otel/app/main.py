@@ -162,7 +162,7 @@ if __name__ == "__main__":
         uvicorn.run(
             "__otel.app.main:app",
             host="localhost",
-            port=3333,
+            port=8084,
             reload=True,
             log_level="info",
         )
