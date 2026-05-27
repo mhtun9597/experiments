@@ -259,70 +259,74 @@ class Summary(BaseModel):
     outcome: str | None = Field(description="Overall evaluated outcome", default=None)
 
 
-from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
+# from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 import aiosqlite
 
 
 async def run():
-    conn = await aiosqlite.connect("__langchain/checkpoint.db")
+    from langchain_openai import OpenAIEmbeddings
 
-    checkpointer = AsyncSqliteSaver(conn=conn)
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+    print(len(embeddings.embed_query("hello world")))
+    # conn = await aiosqlite.connect("__langchain/checkpoint.db")
 
-    await checkpointer.setup()
-    _model = ChatOllama(
-        model="gemma4:e4b",
-        validate_model_on_init=True,
-        base_url="http://mohicans:mohicans_6123@91.72.121.198:8000/ollama/",
-        # other params ...
-    )
+    # checkpointer = AsyncSqliteSaver(conn=conn)
 
-    # async with aiofiles.open("2.png", "rb") as f:
-    #     b = await f.read()
-    # import base64
-
-    # with open("1.pdf", "rb") as f:
-    #     encoded = base64.b64encode(f.read()).decode("utf-8")
-    # print(f"B64 {encoded}")
-
-    # loader = UnstructuredLoader(
-    #     file=io.BytesIO(b),
-    #     chunking_strategy="basic",
-    #     max_characters=1000000,
-    #     metadata_filename="1.pdf",
+    # await checkpointer.setup()
+    # _model = ChatOllama(
+    #     model="gemma4:e4b",
+    #     validate_model_on_init=True,
+    #     base_url="http://mohicans:mohicans_6123@91.72.121.198:8000/ollama/",
+    #     # other params ...
     # )
 
-    # docs = await loader.aload()
+    # # async with aiofiles.open("2.png", "rb") as f:
+    # #     b = await f.read()
+    # # import base64
 
-    # for doc in docs:
-    #     print(doc.page_content)
+    # # with open("1.pdf", "rb") as f:
+    # #     encoded = base64.b64encode(f.read()).decode("utf-8")
+    # # print(f"B64 {encoded}")
 
-    while True:
-        inputs = input("Ask Anything \n")
+    # # loader = UnstructuredLoader(
+    # #     file=io.BytesIO(b),
+    # #     chunking_strategy="basic",
+    # #     max_characters=1000000,
+    # #     metadata_filename="1.pdf",
+    # # )
 
-        agent = create_agent(
-            model=_model,
-            middleware=[
-                _before_model,
-                _after_agent,
-                _before_agent,
-                _after_model,
-                wwrap_model_call,
-            ],
-            tools=[],
-            system_prompt="AI Agent",
-            # response_format=ToolStrategy(Summary),
-            checkpointer=checkpointer,
-        )
+    # # docs = await loader.aload()
 
-        ans = await agent.ainvoke(  # type: ignore
-            {"messages": [HumanMessage(inputs)]},
-            {"configurable": {"thread_id": "1234"}},
-            # type: ignore
-        )
+    # # for doc in docs:
+    # #     print(doc.page_content)
 
-        messages = ans["messages"]
+    # while True:
+    #     inputs = input("Ask Anything \n")
 
-        print(messages)
+    #     agent = create_agent(
+    #         model=_model,
+    #         middleware=[
+    #             _before_model,
+    #             _after_agent,
+    #             _before_agent,
+    #             _after_model,
+    #             wwrap_model_call,
+    #         ],
+    #         tools=[],
+    #         system_prompt="AI Agent",
+    #         # response_format=ToolStrategy(Summary),
+    #         checkpointer=checkpointer,
+    #     )
+
+    #     ans = await agent.ainvoke(  # type: ignore
+    #         {"messages": [HumanMessage(inputs)]},
+    #         {"configurable": {"thread_id": "1234"}},
+    #         # type: ignore
+    #     )
+
+    #     messages = ans["messages"]
+
+    #     print(messages)
 
     # async for token, metadata in agent.astream(  # type: ignore
     #     {"messages": [HumanMessage(content=[{"type": "text", "text": "where is india?"}])]},  # type: ignore

@@ -1,31 +1,45 @@
-import logging
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s - %(name)s - ",
-)
-logger = logging.getLogger(__name__)
-print("initialized from this")
+D = TypeVar("D")
 
 
-# class C(BaseSettings):
-
-#     url: str = Field(default="http://wsere", alias="URL")
-
-#     # def __init__(self) -> None:
-#     #     print("C initialzied")
-#     print("initailized", url)
-
-#     async def set_up(self) -> None:
-#         print("set up", self.url)
-
-#     class Config:
-#         env_file = ".env"
-#         env_file_encoding = "utf-8"
-#         case_sensitive = False
-#         extra = "ignore"  # Ignore extra fields from .env to avoid validation errors
+class AnnotatedToolInput(BaseModel, Generic[D]):
+    description: Optional[str] = None
+    default: Optional[D] = None
 
 
-# c: Final[C] = C()
+# For the model tool calling simplicity, not supported nested object
+class ToolPrimitiveTypeField(BaseModel):
+    type: Literal["boolean", "string", "integer", "number"]
 
-# print("initialize 12321321d")
+
+class ToolObjectTypeField(BaseModel):
+    properties: dict[
+        str,
+        "AnnotatedToolPrimitiveTypeField | AnnotatedToolListTypeField | AnnotatedToolObjectTypeField | AnyTypeField",
+    ]
+    required: list[str]
+    type: Literal["object"]
+
+
+class AnyTypeField(BaseModel):
+    anyOf: "ToolPrimitiveTypeField | ToolObjectTypeField | ToolListTypeField"
+
+
+class ToolListTypeField(BaseModel):
+    items: "ToolPrimitiveTypeField | ToolObjectTypeField | ToolListTypeField | AnyTypeField"
+    type: Literal["array"]
+
+
+class AnnotatedToolPrimitiveTypeField(
+    ToolPrimitiveTypeField, AnnotatedToolInput[int | str | float | bool]
+):
+    pass
+
+
+class AnnotatedToolObjectTypeField(
+    ToolObjectTypeField, AnnotatedToolInput[dict[str, Any]]
+):
+    pass
+
+
+class AnnotatedToolListTypeField(ToolListTypeField, AnnotatedToolInput[list[Any]]):
+    pass

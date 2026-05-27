@@ -306,12 +306,14 @@ async def loop() -> None:
 async def root(path: PathInfo) -> SampleResponse:
     print("path ", path)
 
-    # raise HTTPException(status_code=404, detail={"a": "a"})
-    def cb(task: asyncio.Task[None]) -> None:
-        print("Doneeee")
+    # # raise HTTPException(status_code=404, detail={"a": "a"})
+    # def cb(task: asyncio.Task[None]) -> None:
+    #     print("Doneeee")
 
-    task = asyncio.create_task(loop())
-    task.add_done_callback(cb)
+    # task = asyncio.create_task(loop())
+    # task.add_done_callback(cb)
+
+    await asyncio.sleep(3)
     return SampleResponse(msg="Test", status=True, dt=datetime.now(), data={"a": "a"})
 
 

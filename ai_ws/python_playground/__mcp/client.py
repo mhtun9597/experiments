@@ -4,8 +4,6 @@ from fastmcp import Client
 from fastmcp.client.transports import StdioTransport
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
-
-from langchain_mcp_adapters.tools import load_mcp_tools
 from langchain.agents import create_agent
 
 server_params = StdioServerParameters(
@@ -24,15 +22,15 @@ transport = StdioTransport(
 async def get_tools() -> list[Any]:
     result: list[Any] = []
     try:
-        async with Client("http://localhost:1111/mcp") as client:
+        async with Client(transport) as client:
             tools = await client.list_tools()
             print(tools)
 
             # client
             print("Calling")
             try:
-                res = await client.call_tool(name="test", arguments=None)
-                print("Result ", res)
+                res = await client.call_tool(name="check_kyc_status", arguments=None)
+                print("Result", res.structured_content)
             except Exception as e:
 
                 print(

@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy.ext.asyncio import (
     create_async_engine,
     async_sessionmaker,
@@ -15,11 +17,12 @@ async def run():
         expire_on_commit=False,
     )
     async with Session() as session:
-        query = "SELECT balance, id from test where id = 1;"
+        query = "SELECT * from test where balance > 1;"
         result = await session.execute(text(query))
         print(list(result.keys()))
         res = list(result.fetchall())
-        print(res)
+        _res: list[list[Any]] = [list(r) for r in res]
+        print(_res)
 
 
 if __name__ == "__main__":

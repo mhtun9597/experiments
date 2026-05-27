@@ -1,4 +1,4 @@
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal, Optional
 
 from fastmcp import FastMCP
 from datetime import datetime
@@ -33,17 +33,35 @@ class RTenant(Tenant):
 KYC: dict[int, bool] = {1: True, 2: False}
 
 
-@mcp.tool
-def check_kyc_status(id: Annotated[int, "Account ID"]) -> str:
-    status = KYC.get(id)
-    if status is None:
-        return "Account is not registered"
-    return f"Status {status}"
+class A(BaseModel):
+    a: str
+
+
+class B(BaseModel):
+    b: str
+    parent: A
+
+
+class C(BaseModel):
+    c: str
+    parent: B
+
+
+class O(BaseModel):
+    id: int
+    name: Optional[str]
+    parent: C = C(c="123", parent=B(b="sdfsd", parent=A(a="sdfdsfds")))
 
 
 @mcp.tool
-def test() -> str:
-    return "Hello"
+def check_kyc_status() -> O:
+    # O(id=1, name="O", ages=["O"], child=[OC(id=123)])
+    return O(id=1, name="O")
+
+
+@mcp.tool
+def test() -> dict[str, Any]:
+    return {"a": "a"}
 
 
 # @mcp.tool
@@ -52,5 +70,5 @@ def test() -> str:
 
 
 if __name__ == "__main__":
-    mcp.run(transport="http", port=1111, host="localhost")
-    # mcp.run()
+    # mcp.run(transport="http", port=1111, host="localhost")
+    mcp.run()

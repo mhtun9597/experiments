@@ -8,7 +8,7 @@ class Msg(BaseModel):
     id: str
 
 
-async def run(pool: aioredis.ConnectionPool):
+async def publisher_consumer(pool: aioredis.ConnectionPool):
     workers: list[int] = [1, 2]
     msgs: list[Msg] = [
         Msg(id="A"),
@@ -20,21 +20,19 @@ async def run(pool: aioredis.ConnectionPool):
 
     client1 = aioredis.Redis.from_pool(pool)
     client2 = aioredis.Redis.from_pool(pool)
-    # await pool.disconnect(True)
-    # await client1.aclose()
-    # try:
-    #     pong = await client1.ping()  # type: ignore
-    # except Exception as e:
-    #     print(e)
-    # asyncio.create_task(publisher(channel, msgs, client2))
 
     for w in workers:
         asyncio.create_task(consumer(channel, client1, w))
 
-    # await asyncio.sleep(2)
-    # asyncio.create_task(publisher(channel, msgs, client2))
     while True:
         await asyncio.sleep(5)
+
+
+async def run(pool: aioredis.ConnectionPool):
+    client1 = aioredis.Redis.from_pool(pool)
+    # await client1.rpush("test____", 1)  # type: ignore
+    result = await client1.lrange("test_12312321321___", 0, -1)  # type: ignore
+    print(result)
 
 
 async def publisher(key: str, messages: list[Msg], r: aioredis.Redis) -> None:
