@@ -302,9 +302,13 @@ async def loop() -> None:
         print("Working")
 
 
-@app.get("/api")
-async def root(path: PathInfo) -> SampleResponse:
-    print("path ", path)
+class R(BaseModel):
+    id: int
+
+
+@app.post("/api")
+async def root(r: R) -> list[R]:
+    return [r]
 
     # # raise HTTPException(status_code=404, detail={"a": "a"})
     # def cb(task: asyncio.Task[None]) -> None:
@@ -312,9 +316,6 @@ async def root(path: PathInfo) -> SampleResponse:
 
     # task = asyncio.create_task(loop())
     # task.add_done_callback(cb)
-
-    await asyncio.sleep(3)
-    return SampleResponse(msg="Test", status=True, dt=datetime.now(), data={"a": "a"})
 
 
 class Account(BaseModel):

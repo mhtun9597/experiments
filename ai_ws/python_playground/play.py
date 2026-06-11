@@ -284,19 +284,28 @@ def __convert_outputSchema(schema: dict[str, Any]) -> dict[str, Any]:
             item_type = items.get("type")  # type: ignore
 
             if item_type in __primitive_type:
-                result[k] = (list[__primitive_type[item_type]], ...)
+                result[k] = (
+                    list[__primitive_type[item_type]],
+                    props.get("default") if "default" in props else ...,
+                )
             elif item_type == "object":
                 if items.get("properties"):  # type: ignore
                     model = __convert_outputSchema(items.get("properties"))  # type: ignore
                     print(model)
                     print(create_model(k, **model))
                     if model:
-                        result[k] = (list[create_model(k, **model)], ...)
+                        result[k] = (
+                            list[create_model(k, **model)],
+                            props.get("default") if "default" in props else ...,
+                        )
             elif item_type == "array":
                 model = __convert_outputSchema(items)  # type: ignore
                 print("Array Model ", model)
                 if model:
-                    result[k] = (list[list[model.get("items")]], ...)
+                    result[k] = (
+                        list[list[model.get("items")]],
+                        props.get("default") if "default" in props else ...,
+                    )
             elif item_type == "any":
                 types = []
                 annotates = []
@@ -327,10 +336,13 @@ def __convert_outputSchema(schema: dict[str, Any]) -> dict[str, Any]:
                 if __types:
                     result[k] = (
                         list[Union[*__types] if len(__types) > 1 else __types[0]],
-                        ...,
+                        props.get("default") if "default" in props else ...,
                     )
         elif _type in __primitive_type:
-            result[k] = (__primitive_type[_type], ...)
+            result[k] = (
+                __primitive_type[_type],
+                props.get("default") if "default" in props else ...,
+            )
         elif _type == "any":
             types = []
             annotates = []
@@ -368,7 +380,7 @@ def __convert_outputSchema(schema: dict[str, Any]) -> dict[str, Any]:
             if __types:
                 result[k] = (
                     Union[*__types] if len(__types) > 1 else __types[0],
-                    ...,
+                    props.get("default") if "default" in props else ...,
                 )
         else:
             continue
@@ -482,10 +494,7 @@ def detect_input_schema_errors(
                 )
             )
             return
-        __fields = field.split(".")
-        prev = field_depths.get(__fields[1]) or 0
-        field_depths[__fields[1]] = prev + 1
-        print(field_depths)
+
         for k in prop.required:
             if not k in prop.properties:
                 errors.append(
@@ -494,6 +503,15 @@ def detect_input_schema_errors(
                         msg=f"{k} not include in ${field}.properties",
                     )
                 )
+        for k, v in prop.properties.items():
+            if v.default is None and k not in prop.required:
+                errors.append(
+                    ToolValidationMsg(
+                        field=f"{field}.properties.{k}",
+                        msg=f"not set default value",
+                    )
+                )
+
         __dict = prop.model_dump(exclude_unset=True)
         if "default" in __dict:
             schema = __convert_outputSchema(prop.model_dump())
@@ -591,182 +609,41 @@ def detect_input_schema_errors(
 
 
 async def run():
-    schema = {
-        "properties": {
-            "id": {"type": "integer"},
-            "name": {"anyOf": [{"type": "string"}, {"type": "null"}], "type": "any"},
-            "parent": {
-                "anyOf": [
-                    {
-                        "properties": {
-                            "c": {"type": "string"},
-                            "parent": {
-                                "properties": {
-                                    "b": {"type": "string"},
-                                    "parent": {
-                                        "properties": {"a": {"type": "string"}},
-                                        "required": ["a"],
-                                        "type": "object",
-                                    },
-                                },
-                                "required": ["b", "parent"],
-                                "type": "object",
-                            },
-                        },
-                        "required": ["c", "parent"],
-                        "type": "object",
-                    },
-                    {"type": "null"},
-                ],
-                "default": None,
-                "type": "any",
-            },
-        },
-        "required": ["id", "name"],
-        "type": "object",
-    }
 
-    # tschema = {"properties": {"a": { "idd": 123}}}
-    data = {
-        "id": 1,
-        "name": "O",
-        "parent": {"c": "123", "parent": {"b": "sdfsd", "parent": {"a": "sdfdsfds"}}},
-    }
     try:
         # _tschema = C.model_validate(tschema)
         # type_adapter = TypeAdapter(ToolObjectTypeField)
+        schema = {
+            "properties": {
+                "id": {"type": "integer"},
+                "ages": {
+                    "anyOf": [{"type": "integer"}, {"type": "null"}],
+                    "default": None,
+                    "type": "any",
+                },
+            },
+            "required": ["id"],
+            "type": "object",
+        }
+        _schema = ToolObjectTypeField.model_validate(schema, extra="forbid")
+        print(_schema)
 
-        _schema = ToolObjectTypeField.model_validate(schema)
+        detect_input_schema_errors(_schema, f"schema")
 
-        for field, prop in _schema.properties.items():
-            detect_input_schema_errors(prop, f"properties.{field}")
-        print("Fioeld Deptsh ", field_depths)
-        for k, v in field_depths.items():
-            if v > 2:
-                warnings.append(
-                    ToolValidationMsg(
-                        field=f"{k}",
-                        msg="nested. flatten args is better",
-                    )
-                )
-        m_s = __convert_outputSchema(schema["properties"])
+        m_s = __convert_outputSchema({"s": schema})
         print(m_s)
         # print(m_s)
-        model = create_model("model", **m_s)
-        dd = model.model_validate(data)
-        print(dd)
+        model = m_s.get("s")
+        if issubclass(model, BaseModel):
+            data = {"id": 123, "age": 1231232}
+            res = model.model_validate(data, extra="forbid")
+            print(res)
+            print(res.model_dump())
         print("Warnings ", warnings)
         print("Errors ", errors)
     except ValidationError as e:
         print("Validation Errors in main")
         print(e.errors())
-
-    # d = {
-    #     "properties": {
-    #         "id": {"type": "integer"},
-    #         "name": {"type": "string"},
-    #         "ages": {
-    #             "properties": {"id": {"type": "integer"}},
-    #             # "required": ["id"],
-    #             "type": "object",
-    #         },
-    #     },
-    #     # "required": ["id", "name", "ages"],
-    #     "type": "object",
-    # }
-    # d = __add_required_field(d)  # type: ignore
-    # res = {
-    #     "properties": {
-    #         "id": {"type": "integer"},
-    #         "name": {"type": "string"},
-    #         "ages": {
-    #             "properties": {"id": {"type": "integer"}},
-    #             "type": "object",
-    #             "required": ["id"],
-    #         },
-    #     },
-    #     "type": "object",
-    #     "required": ["id", "name", "ages"],
-    # }
-    # print(d)
-    # d: dict[str, Any] = {
-    #     "id": {"type": "integer"},
-    #     "name": {"type": "string"},
-    #     "ages": {
-    #         "items": {
-    #             "items": {
-    #                 "properties": {"id": {"type": "integer"}},
-    #                 "required": ["id"],
-    #                 "type": "object",
-    #             },
-    #             "type": "array",
-    #         },
-    #         "type": "array",
-    #     },
-    # }
-    # data = {"id": 1, "name": "O", "ages": [[{"id": 123}]]}
-    # structure = __convert_outputSchema(d)
-    # print(structure)
-    # if structure:
-    #     model = create_model("model", **structure)
-    #     model.model_validate(data)
-
-    # c = {"parent": "dfgdf", "id": "werwere"}
-    # field: dict[str, Any] = {"name": (list[int], ...)}
-    # mode = create_model("mode", **field)
-    # d = {"name": [1]}
-    # try:
-    #     mode.model_validate(d)
-    # except ValidationError as e:
-    #     print(e.errors())
-
-    # try:
-    #     M.model_validate(d)
-    # except ValidationError as e:
-    #     print(e.errors())
-    #     ctx = e.errors()[0].get("ctx")
-    #     if ctx:
-    #         err = ctx.get("error")
-    #         print(err)
-
-    # data : dict[str, Any]= {"a": 3, "b": 1, "c": 2, "d" : "sdfdsfsd"}
-    # filtered_sorted = dict(sorted(
-    #     ((k, v) for k, v in data.items() if isinstance(v, int)),
-    #     key=lambda item: item[1])
-
-    #  )
-    # print(filtered_sorted)
-
-    # a = [1, 2]
-    # a.append(3)
-    # print(a)
-    # await sleeper(2)
-    # logger.critical("Testing")
-    # import re
-
-    # log: str = (
-    #     "2026-04-23 10:39:42,443 - asyncio - DEBUG - Using proactor: IocpProactor"
-    # )
-
-    # pattern = (
-    #     r"^(?P<timestamp>.*?) - (?P<service>.*?) - (?P<level>.*?) - (?P<message>.*)$"
-    # )
-    # match = re.match(pattern, log)
-    # if match:
-    #     data = match.groupdict()
-    #     print(data["timestamp"])
-    #     logger.info(data)
-    # from datetime import datetime
-
-    # s = "212312321"
-
-    # dt = datetime.strptime(s, "%Y-%m-%d %H:%M:%S,%f")
-
-    # print(dt)
-
-    # a = [1, 2, 3]
-    # print(a[3:])
-    # print(a[:float[]-])
 
 
 # import json
@@ -864,28 +741,40 @@ async def async_fn(x: int) -> int:
     return await asyncio.to_thread(sync_fn, x)
 
 
-class A(BaseModel):
-    type: Literal["A"]
-    ida: int
-
-
 class B(BaseModel):
-    type: Literal["B"]
-    idb: int
+    b: str
 
 
-class C(BaseModel):
-    c: Optional[int] = None
+class A(BaseModel):
+    a: str
+    b: B = B(b="123123")
+
+
+def tr(a: str = "abcde"):
+    print(a)
+
+
+def get_func() -> Callable[..., Any]:
+    return tr
+
+
+class A(BaseModel):
+    a: int
+
+
+class AA(BaseModel):
+    a: int
+    b: int
 
 
 async def run1():
-    c = C(c=None)
-    print(c)
-    print(c.model_dump(exclude_unset=True))
+    aa: AA = AA(a=1, b=2)
+    a = A.model_validate(aa.model_dump())
+    print(a)
 
 
 if __name__ == "__main__":
-    asyncio.run(run())
+    asyncio.run(run1())
 # def process_desciption_required_warnings(
 #     prop: (
 #         MCPCompatibleToolInputPrimitiveTypeField

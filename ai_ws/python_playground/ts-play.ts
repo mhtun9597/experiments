@@ -38,8 +38,9 @@ const SchemaA = z.discriminatedUnion("type", [
 ]);
 
 const SchemaT = z.object({
-    id: z.number(),
-    a: SchemaA
+    id: z.string().refine((val) => !/\s/.test(val), {
+        message: "No whitespace allowed",
+    }),
 })
 
 const Players = z.array(Player)
@@ -48,14 +49,15 @@ import yaml, { YAMLException } from "js-yaml"
 
 
 
-function yamlZodTest(a: any) {
+function yamlZodTest() {
     // console.log(res)
-    const _yaml = yaml.dump(a)
+    // const _yaml = yaml.dump(a)
     // console.log(_yaml)
-    const str = "- a: test\nb:\n -b: testestete"
+    // const str = "- a: test\nb:\n -b: testestete"
     // console.log(str)
     try {
-        const res = yaml.load(_yaml)
+        // const res = yaml.load(_yaml)
+        const res = { "id": "dassad sadsa" }
 
         const validation = SchemaT.parse(res)
     } catch (error) {
@@ -71,6 +73,7 @@ function yamlZodTest(a: any) {
             console.log(error.stack)
 
         } else if (error instanceof z.ZodError) {
+
             const err = JSON.parse(error.message)
             console.log("ZOD Error ", err)
         } else {
@@ -81,52 +84,35 @@ function yamlZodTest(a: any) {
 
 }
 
-function _test(query: { [key: string]: string }) {
-
-    const str = `
-    {
-    "properties": {
-        "account": {
-            "properties": {
-                "name": {
-                    "description": "Account Name",
-                    "type": "string"
-                },
-                "email": {
-                    "description": "Account Email",
-                    "type": "string"
-                },
-                "country": {
-                    "description": "Country",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "email",
-                "country"
-            ],
-            "type": "object",
-            "description": "Account information"
-        }
-    },
-    "required": [
-        "account"
-    ],
-    "type": "object"
+interface IT {
+    id: number
 }
-    `
-    try {
-        const res = JSON.parse(str)
-        console.log(res)
-    } catch (error) {
-        console.log(error)
-    }
+
+function _test() {
+    let a: { [key: number]: number } = { 1: 2, 2: 3 }
+    console.log(a)
+    delete a[2]
+    console.log(a)
 
 }
+_test()
+yamlZodTest()
 // _test({ a: { b: { b: "werwerwe" }, c: { c: "werwerwe" } } })
 
-const arr: string | undefined = undefined
-_test({ "status": "testing" })
+// const arr: string | undefined = undefined
+// _test({ "status": "testing" })
 
 // _test(123123)
+
+// interface A {
+//     a: "a"
+// }
+// function __test(v: any) {
+
+//     let arr = [1, 2, 3, 4]
+//     arr.splice(1, 1)
+//     console.log(arr)
+
+// }
+
+// __test({ "b": "b", "a": "a" })

@@ -30,38 +30,18 @@ class RTenant(Tenant):
 #     id = datetime.now().isoformat()
 #     return {"id": id, "name": name}
 
-KYC: dict[int, bool] = {1: True, 2: False}
-
-
-class A(BaseModel):
-    a: str
-
-
-class B(BaseModel):
-    b: str
-    parent: A
-
-
-class C(BaseModel):
-    c: str
-    parent: B
-
-
-class O(BaseModel):
-    id: int
-    name: Optional[str]
-    parent: C = C(c="123", parent=B(b="sdfsd", parent=A(a="sdfdsfds")))
+KYC: dict[float, bool] = {1: True, 2: False}
 
 
 @mcp.tool
-def check_kyc_status() -> O:
+def check_kyc_status(id: float) -> bool:
     # O(id=1, name="O", ages=["O"], child=[OC(id=123)])
-    return O(id=1, name="O")
+    return KYC.get(id) or False
 
 
-@mcp.tool
-def test() -> dict[str, Any]:
-    return {"a": "a"}
+# @mcp.tool
+# def test() -> dict[str, Any]:
+#     return {"a": "a"}
 
 
 # @mcp.tool
@@ -70,5 +50,5 @@ def test() -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-    # mcp.run(transport="http", port=1111, host="localhost")
+    # mcp.run(transport="http", port=8084, host="localhost")
     mcp.run()
