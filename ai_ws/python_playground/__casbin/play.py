@@ -8,6 +8,7 @@ class TenantEnforcer:
 
     _adapter: Adapter
     _enforcer: casbin.async_enforcer.AsyncEnforcer
+     
 
     def __init__(self) -> None:
         engine = create_async_engine("sqlite+aiosqlite:///__casbin/db.db")

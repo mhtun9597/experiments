@@ -222,13 +222,74 @@ def _render_completed_message(message: AnyMessage) -> None:
 import io
 
 PROMPT: str = """
-You are a conversation summarization agent.
+You are a routing match evaluator.
 
-Summarize the conversation clearly, concisely, and accurately.
+Your task is to compare:
+- one RoutingRule
+- one CustomerPreference
 
-Focus on:
-- what the conversation is about
-- any goal, request, decision, or important context already expressed
+The input will always be provided in this format:
+
+<RoutingRule>
+  <intention>...</intention>
+  <lang>...</lang>
+</RoutingRule>
+
+<CustomerPreference>
+  <intention>...</intention>
+  <lang>...</lang>
+</CustomerPreference>
+
+Each input has exactly two attributes:
+- intention
+- lang
+
+# Meaning of fields
+
+## intention
+- RoutingRule intention describes the type of customer intention that the rule is meant to handle.
+- CustomerPreference intention describes what the customer wants, needs, or is asking for.
+
+## lang
+- RoutingRule lang and CustomerPreference lang describe language.
+- They should be treated as equal when they mean the same language, even if written differently.
+
+# Semantic matching rules
+
+## Language matching
+Treat lang as matched when both sides mean the same language, even if:
+- spelling is wrong
+- grammar is wrong
+- abbreviation is used
+- wording is different
+- another language is used
+
+Examples of lang match:
+- en = eng = english
+- myanmar = burmese
+- jp = japanese
+
+## Intention matching
+Treat intention as matched when CustomerPreference intention is semantically covered by RoutingRule intention.
+
+This remains a match even if:
+- wording is different
+- grammar is incorrect
+- spelling is incorrect
+- one side is more descriptive
+- one side is written in another language
+- one side is paraphrased
+
+Do not require exact wording.
+Use semantic meaning.
+
+
+# Wildcard rule
+If a RoutingRule attribute has value "*", it matches any value of the corresponding CustomerPreference attribute.
+
+# Final Decision Rule
+All RoutingRule attributes MUST cover the corresponding CustomerPreference attributes
+
 """
 
 # PROMPT: str = """
@@ -263,22 +324,50 @@ class Summary(BaseModel):
 import aiosqlite
 
 
-async def run():
-    from langchain_openai import OpenAIEmbeddings
+class Decision(BaseModel):
+    matched: bool = Field(
+        description="True If RoutingRule attributes cover the corresponding CustomerPreference attributes, else False."
+    )
+    reason: str = Field(
+        description="Detailed description of decided reason of the result."
+    )
 
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
-    print(len(embeddings.embed_query("hello world")))
+
+async def run():
+    # from langchain_openai import OpenAIEmbeddings
+
+    # embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+    # print(len(embeddings.embed_query("hello world")))
     # conn = await aiosqlite.connect("__langchain/checkpoint.db")
 
     # checkpointer = AsyncSqliteSaver(conn=conn)
 
     # await checkpointer.setup()
-    # _model = ChatOllama(
-    #     model="gemma4:e4b",
-    #     validate_model_on_init=True,
-    #     base_url="http://mohicans:mohicans_6123@91.72.121.198:8000/ollama/",
-    #     # other params ...
-    # )
+    _model = ChatOllama(
+        model="qwen3:8b",
+        validate_model_on_init=True,
+        base_url="http://mohicans:mohicans_6123@91.72.121.198:8000/ollama/",
+        # other params ...
+    )
+
+    agent = create_agent(
+        model=_model,
+        middleware=[],
+        tools=[],
+        system_prompt=PROMPT,
+        response_format=Decision,
+    )
+
+    query = f"""
+             <RoutingRule><intention>Job seekings</intention><lang>*</lang></RoutingRule>
+             <CustomerPreference><intention>Customer faced withdrawl issue</intention><lang>english</lang></CustomerPreference>
+             """
+
+    result = await agent.ainvoke(  # type: ignore
+        {"messages": [HumanMessage(content=query)]},  # type: ignore
+        # {"configurable": {"thread_id": context.session}},
+    )
+    print(result["structured_response"])
 
     # # async with aiofiles.open("2.png", "rb") as f:
     # #     b = await f.read()

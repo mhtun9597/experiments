@@ -1,3 +1,4 @@
+import FolderUpload from "./components/FileUploader";
 import Page from "./components/SocketIO";
 
 
@@ -5,7 +6,7 @@ export default function Home() {
   return (
 
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <Page></Page>
+      <FolderUpload></FolderUpload>
     </div >
 
   );

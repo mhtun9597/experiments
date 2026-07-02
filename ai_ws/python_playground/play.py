@@ -767,10 +767,30 @@ class AA(BaseModel):
     b: int
 
 
+async def func2() -> int:
+    await asyncio.sleep(5)
+    return 5
+
+
+async def func1() -> int:
+    def cb(result: asyncio.Task[int]) -> None:
+        print("Inside Cb result -> ", result.result())
+
+    aio_task: asyncio.Task[int] = asyncio.ensure_future(func2())
+    aio_task.add_done_callback(cb)
+
+    return 15
+
+
+def func2() -> int:
+    raise Exception("testing sdfdsfds")
+
+
 async def run1():
-    aa: AA = AA(a=1, b=2)
-    a = A.model_validate(aa.model_dump())
-    print(a)
+    try:
+        func2()
+    except Exception as e:
+        print(str(e))
 
 
 if __name__ == "__main__":

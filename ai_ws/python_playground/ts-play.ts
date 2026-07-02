@@ -6,18 +6,8 @@ const Player = z.object({
     name: z.string(),
 });
 
-interface B {
-    b: string
-}
-interface C {
-    c: string
-}
+
 type TYPE = "b" | "c"
-interface A {
-    type: TYPE
-    b?: B
-    c?: C
-}
 
 interface T {
     id: number,
@@ -88,15 +78,28 @@ interface IT {
     id: number
 }
 
-function _test() {
-    let a: { [key: number]: number } = { 1: 2, 2: 3 }
-    console.log(a)
-    delete a[2]
-    console.log(a)
+interface A {
+    a?: string
+    b?: string
+}
+interface B {
+    b: string
+}
 
+interface C {
+    c: A & B
+}
+import { v4 as uuidv4 } from 'uuid';
+
+function _test() {
+    let a = ""
+    
 }
 _test()
-yamlZodTest()
+
+
+
+// yamlZodTest()
 // _test({ a: { b: { b: "werwerwe" }, c: { c: "werwerwe" } } })
 
 // const arr: string | undefined = undefined
